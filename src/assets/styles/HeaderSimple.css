@@ -1,0 +1,35 @@
+/* Estilo base del header */
+.header-simple {
+  background-color: #87CEFA; /* Color de fondo del header */
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff; /* Color de la letra del título */
+}
+
+.header-nav {
+  display: flex;
+  gap: 20px;
+}
+
+/* Estilo para los botones */
+.header-button {
+  background: none;
+  border: none;
+  color: white; /* Color de las letras por defecto */
+  font-size: 16px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: color 0.3s ease; /* Solo transición del color del texto */
+}
+
+/* Efecto al pasar el mouse por encima de los botones */
+.header-button:hover {
+  color: #02fcbd; /* Color verde al pasar el mouse sobre las letras */
+}

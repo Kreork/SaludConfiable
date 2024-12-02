@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import "../src/assets/styles/estilos.css";
+import "../src/assets/styles/normalize.css";
+import About from "./components/About";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import Questions from "./components/Questions";
+import NurseProfile from "./pages/NurseProfile"; // Página de detalles de la enfermera
+import NursesPage from "./pages/NursesPage"; // Página de enfermeras
+import Proximamente from "./pages/Proximamente";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        {/* Ruta principal */}
+        <Route
+          path="/"
+          element={
+            <>
+              <Header />
+              <main>
+                <About />
+                <Questions />
+              </main>
+              <Footer />
+            </>
+          }
+        />
+
+        {/* Ruta para la página de enfermeras */}
+        <Route path="/nurses" element={<NursesPage />} />
+
+        {/* Ruta para la página de detalles de la enfermera */}
+        <Route path="/nurse/:id" element={<NurseProfile />} />
+
+        {/* Ruta para la página "Próximamente" */}
+        <Route path="/proximamente" element={<Proximamente />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;

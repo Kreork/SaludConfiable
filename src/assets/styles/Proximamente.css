@@ -1,0 +1,36 @@
+.proximamente-container {
+    display: flex;
+    flex-direction: column;  /* Asegura que los elementos estén en columna */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;  /* Ocupa todo el alto de la ventana */
+    background-color: #f4f4f4;  /* Color de fondo suave */
+    text-align: center;
+  }
+  
+  .proximamente-container h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .proximamente-container p {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 30px;
+  }
+  
+  .btn-inicio {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #438686;  /* Un color atractivo */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-inicio:hover {
+    background-color: #306060;  /* Un tono más oscuro cuando el botón se pasa por encima */
+  }
+  
