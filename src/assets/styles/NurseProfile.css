@@ -104,3 +104,42 @@
   color: #03d39f;
   border-bottom: 2px solid #03d39f;
 }
+
+.info-section {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  font-size: 20px; /* Aumentamos el tamaño del texto */
+  color: #333;
+}
+
+.info-section p {
+  margin: 0;
+  line-height: 1.6; /* Mejora la legibilidad */
+}
+
+.reviews-section {
+  margin-top: 20px;
+}
+
+.reviews-section table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.reviews-section th, .reviews-section td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.reviews-section th {
+  background-color: #f1f1f1;
+}
+
+.reviews-section tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
