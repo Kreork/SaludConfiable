@@ -1,6 +1,6 @@
 /* Estilo base del header */
 .header-simple {
-  background-color: #87CEFA; /* Color de fondo del header */
+  background-color: #87CEFA;
   padding: 20px;
   display: flex;
   justify-content: space-between;
@@ -10,7 +10,7 @@
 .header-title {
   font-size: 24px;
   font-weight: bold;
-  color: #fff; /* Color de la letra del título */
+  color: #fff;
 }
 
 .header-nav {
@@ -22,14 +22,50 @@
 .header-button {
   background: none;
   border: none;
-  color: white; /* Color de las letras por defecto */
+  color: white;
   font-size: 16px;
   cursor: pointer;
   text-transform: uppercase;
-  transition: color 0.3s ease; /* Solo transición del color del texto */
+  transition: color 0.3s ease;
 }
 
-/* Efecto al pasar el mouse por encima de los botones */
 .header-button:hover {
-  color: #02fcbd; /* Color verde al pasar el mouse sobre las letras */
+  color: #02fcbd;
+}
+
+/* Botón de menú móvil */
+.menu-toggle {
+  display: none; /* Por defecto, no visible en pantallas grandes */
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 800px) {
+  .menu-toggle {
+    display: block; /* Mostrar el botón de menú */
+  }
+
+  .header-nav {
+    display: none; /* Ocultar menú por defecto */
+    flex-direction: column;
+    background-color: #87CEFA;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    padding: 10px 15px;
+    border-radius: 8px;
+  }
+
+  .header-nav.nav-open {
+    display: flex; /* Mostrar el menú cuando esté activo */
+  }
+
+  .header-button {
+    text-align: left; /* Ajustar alineación para menú móvil */
+    margin-bottom: 10px;
+  }
 }

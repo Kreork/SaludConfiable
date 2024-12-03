@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import DatePicker from "react-datepicker"; // Importamos el componente DatePicker
+import "react-datepicker/dist/react-datepicker.css"; // Importamos los estilos de DatePicker
+import { useNavigate, useParams } from "react-router-dom";
 import Img from "../assets/images/enfermera.png";
 import "../assets/styles/NurseProfile.css";
 import Footer from "../components/Footer";
@@ -8,39 +10,55 @@ import HeaderSimple from "../components/HeaderSimple";
 const NurseProfile = () => {
   const { id } = useParams();
   const [nurse, setNurse] = useState(null);
-  const [reviews, setReviews] = useState([]); // Estado para las reseñas
-  const [activeTab, setActiveTab] = useState("about"); // Estado para la pestaña activa (Acerca de, Reseñas, Mis Servicios)
+  const [reviews, setReviews] = useState([]);
+  const [activeTab, setActiveTab] = useState("about");
+  const [showAppointmentForm, setShowAppointmentForm] = useState(false); // Estado para controlar la visibilidad del formulario
+  const [appointmentDate, setAppointmentDate] = useState(new Date()); // Estado para la fecha seleccionada
+  const [name, setName] = useState(""); // Estado para el nombre
+  const [phone, setPhone] = useState(""); // Estado para el número de teléfono
+  const [ubicacion, setUbi] = useState(""); // Estado para la dirección
+  const [confirmationMessage, setConfirmationMessage] = useState(""); // Estado para el mensaje de confirmación
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Obtener los datos de la enfermera
     fetch(`https://distribuida.pockethost.io/api/collections/Enfermeras/records/${id}`)
       .then((response) => response.json())
       .then((data) => setNurse(data))
       .catch((error) => console.error("Error al cargar los datos:", error));
 
-    // Obtener las reseñas de la enfermera utilizando el filtro adecuado
     fetch(`https://distribuida.pockethost.io/api/collections/Resenas/records?filter=(Enfermera="${id}")`)
       .then((response) => response.json())
       .then((data) => {
-        console.log("Respuesta de la API:", data); // Verificar la estructura de la respuesta
-        setReviews(data.items || []); // Asegurarse de usar 'items' si existe
+        setReviews(data.items || []);
       })
       .catch((error) => {
-        console.error("Error al cargar las reseñas:", error);
-        setReviews([]); // Configurar un arreglo vacío si hay un error
+        setReviews([]);
       });
   }, [id]);
 
   const toggleReviews = () => {
-    setActiveTab("reviews"); // Cambiar a la pestaña de reseñas
+    setActiveTab("reviews");
   };
 
   const toggleAbout = () => {
-    setActiveTab("about"); // Cambiar a la pestaña de "Acerca de"
+    setActiveTab("about");
   };
 
   const toggleServices = () => {
-    setActiveTab("services"); // Cambiar a la pestaña de "Mis Servicios"
+    setActiveTab("services");
+  };
+
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+
+  const handleAppointmentSubmit = () => {
+    // Aquí puedes manejar la lógica para guardar la cita, por ejemplo, enviándola a una API
+    console.log("Cita agendada:", { name, phone, appointmentDate });
+    setShowAppointmentForm(false); // Ocultar el formulario después de enviar la cita
+    setConfirmationMessage(
+      "¡Se ha agendado su cita! Dos horas antes, la enfermera se comunicará con usted para confirmar su cita."
+    ); // Establecemos el mensaje de confirmación
   };
 
   if (!nurse) return <p>Cargando...</p>;
@@ -48,6 +66,9 @@ const NurseProfile = () => {
   return (
     <div>
       <HeaderSimple />
+      <div className="back-button">
+        <button onClick={handleGoBack}>Regresar</button>
+      </div>
 
       <div className="profile-container">
         <div className="profile-header">
@@ -66,9 +87,53 @@ const NurseProfile = () => {
         </div>
 
         <div className="add-appointment">
-          <button>Agregar cita</button>
+          <button onClick={() => setShowAppointmentForm(true)}>Agregar cita</button>
           <p className="price-info">Precio: ${nurse.Precio} mxn/hr</p>
         </div>
+
+        {showAppointmentForm && (
+          <div className="appointment-form">
+            <h3>Agendar cita</h3>
+            <DatePicker
+              selected={appointmentDate}
+              onChange={(date) => setAppointmentDate(date)} // Cambiamos a onChange de DatePicker
+              dateFormat="dd/MM/yyyy" // O cualquier formato de fecha que prefieras
+              className="calendar-input"
+            />
+            <div className="input-container">
+              <label>Nombre:</label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Ingresa tu nombre"
+              />
+            </div>
+            <div className="input-container">
+              <label>Teléfono:</label>
+              <input
+                type="text"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="Ingresa tu número de teléfono"
+              />
+            </div>
+            <div className="input-container">
+              <label>Dirección:</label>
+              <input
+                type="text"
+                value={ubicacion}
+                onChange={(e) => setUbi(e.target.value)}
+                placeholder="Ingresa su dirección"
+              />
+            </div>
+            <button className="back-button" onClick={handleAppointmentSubmit}>Confirmar cita</button>
+            <button className="back-button" onClick={() => setShowAppointmentForm(false)}>Cancelar</button>
+          </div>
+        )}
+
+        {/* Aquí mostramos el mensaje de confirmación después de agendar la cita */}
+        {confirmationMessage && <p className="confirmation-message">{confirmationMessage}</p>}
 
         <div className="tabs">
           <button
@@ -91,14 +156,12 @@ const NurseProfile = () => {
           </button>
         </div>
 
-        {/* Solo mostrar la sección "Acerca de" si la pestaña activa es "about" */}
         {activeTab === "about" && (
           <div className="info-section">
             <p>{nurse.Info || "No hay información disponible."}</p>
           </div>
         )}
 
-        {/* Solo mostrar la tabla de reseñas si la pestaña activa es "reviews" */}
         {activeTab === "reviews" && (
           <div className="reviews-section">
             <h3>Reseñas</h3>
@@ -116,18 +179,17 @@ const NurseProfile = () => {
                     <tr key={review.id}>
                       <td>{review.Nombre}</td>
                       <td>{review.Contenido}</td>
-                      <td>{new Date(review.Fecha).toLocaleDateString()}</td> {/* Formateamos la fecha */}
+                      <td>{new Date(review.Fecha).toLocaleDateString()}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             ) : (
-              <p>No hay reseñas disponibles.</p> // Mensaje cuando no hay reseñas
+              <p>No hay reseñas disponibles.</p>
             )}
           </div>
         )}
 
-        {/* Solo mostrar el mensaje de "Mis Servicios" si la pestaña activa es "services" */}
         {activeTab === "services" && (
           <div className="services-section">
             <h3>Mis Servicios</h3>

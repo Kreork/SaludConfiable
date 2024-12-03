@@ -1,36 +1,36 @@
-import React from "react";
-import { useLocation, useNavigate } from "react-router-dom"; // Para manejar la navegación
-import "../assets/styles/HeaderSimple.css"; // Archivo de estilos
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import "../assets/styles/HeaderSimple.css";
 
 const HeaderSimple = () => {
-  const navigate = useNavigate(); // Inicializamos el hook de navegación
-  const location = useLocation(); // Para verificar la ruta actual
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Estado para manejar la visibilidad del menú móvil
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Función para redirigir al inicio
   const handleGoHome = () => {
-    navigate("/"); // Redirige al inicio
+    navigate("/");
   };
 
   // Función para volver a la página anterior
   const handleGoBack = () => {
-    navigate(-1); // Regresa a la página anterior
+    navigate(-1);
   };
 
   // Función para manejar la navegación a preguntas
   const handlePreguntasClick = () => {
     if (location.pathname !== "/") {
-      // Si no estamos en el inicio, primero redirige al inicio
       navigate("/");
 
-      // Después de redirigir, desplazarse a la sección de preguntas
       setTimeout(() => {
         const preguntasSection = document.getElementById("preguntas_frecuentes");
         if (preguntasSection) {
           preguntasSection.scrollIntoView({ behavior: "smooth" });
         }
-      }, 500); // Esperar medio segundo para asegurar la carga
+      }, 500);
     } else {
-      // Si ya estamos en el inicio, desplazar directamente a preguntas
       const preguntasSection = document.getElementById("preguntas_frecuentes");
       if (preguntasSection) {
         preguntasSection.scrollIntoView({ behavior: "smooth" });
@@ -38,10 +38,22 @@ const HeaderSimple = () => {
     }
   };
 
+  // Función para alternar el menú móvil
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <header className="header-simple">
       <div className="header-title">Salud Confiable</div>
-      <nav className="header-nav">
+
+      {/* Botón de menú para pantallas pequeñas */}
+      <button className="menu-toggle" onClick={toggleMenu}>
+        {isMenuOpen ? "Cerrar" : "☰"}
+      </button>
+
+      {/* Menú de navegación */}
+      <nav className={`header-nav ${isMenuOpen ? "nav-open" : ""}`}>
         <button className="header-button" onClick={handleGoHome}>
           Inicio
         </button>
