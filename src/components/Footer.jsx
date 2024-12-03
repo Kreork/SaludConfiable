@@ -20,9 +20,16 @@ const Footer = () => {
 
       <section className="footer__copy container">
         <div className="footer__social">
-          <a href="#" className="footer__icons"><img src={facebookIcon} alt="Facebook" /></a>
-          <a href="#" className="footer__icons"><img src={twitterIcon} alt="Twitter" /></a>
-          <a href="#" className="footer__icons"><img src={youtubeIcon} alt="YouTube" /></a>
+        <a href="https://facebook.com" className="footer__icons" target="_blank" rel="noopener noreferrer">
+        <img src={facebookIcon} alt="Facebook" />
+        </a>
+        <a href="https://twitter.com" className="footer__icons" target="_blank" rel="noopener noreferrer">
+          <img src={twitterIcon} alt="Twitter" />
+        </a>
+        <a href="https://youtube.com" className="footer__icons" target="_blank" rel="noopener noreferrer">
+          <img src={youtubeIcon} alt="YouTube" />
+        </a>
+
         </div>
         <h3 className="footer__copyright">Derechos reservados &copy;</h3>
       </section>
