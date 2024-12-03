@@ -12,7 +12,7 @@ const Footer = () => {
           <h2 className="footer__title">SaludConfiable</h2>
           <ul className="nav__link nav__link--footer">
             <li className="nav__items">
-              <a href="#" className="nav__links">Inicio</a>
+              
             </li>
           </ul>
         </nav>
